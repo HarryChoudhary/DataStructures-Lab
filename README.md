@@ -1,3 +1,3 @@
-# Advanced Datastructure-Lab
+#  Datastructure-Lab
 SPPU(SECOMP) Syllabus
-Consists of Advanced Data structures all programs developed in c++ and java
+Consists of Data structures(SECOMP SEM1 )and  ADvanced Data structures(SECOMP SEM2) all programs developed in c++ and java
