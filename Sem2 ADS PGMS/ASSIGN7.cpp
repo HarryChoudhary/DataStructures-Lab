@@ -1,0 +1,346 @@
+//============================================================================
+// Name        : assignment_6.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+/*
+
+NAME-HARISH CHOUDHARY
+	ROLL NO-SECOA121
+ASSIGNMENT 7-Consider telephone book database of N clients. Make use of a hash table implementation to
+				quickly look up clients telephone number
+*/
+
+
+#include <iostream>
+#include<cstring>
+using namespace std;
+
+ typedef struct clients
+{
+	string Name;
+	 long int tel;
+
+}client;
+class  hash
+{
+	 client c[20];
+	int key;
+	int index;
+	int flag[20];
+	int chain[20];
+	string cName;
+	  long int telephone;
+	int n;
+public:
+	 hash()
+{
+		for(int i=0;i<20;i++)
+		{
+			chain[i]=-1;
+			flag[i]=0;
+			c[i].Name=" ";
+			c[i].tel=0;
+		}
+}
+	void insert_without_chaining()
+	{
+		char ch;
+
+		cout<<"enter size of hash table"<<endl;
+		cin>>n;
+		do{
+		
+		cout<<"enter name of person"<<endl;
+		cin>>cName;
+		cout<<endl;
+		cout<<"enter telephone number to be added"<<endl;
+		cin>>telephone;
+			index=(telephone%n);
+			for(int i=0;i<n;i++)
+			{
+
+
+			if(flag[index]==0 )
+			{
+				c[index].Name=cName;
+				c[index].tel=telephone;
+				flag[index]=1;
+				break;
+
+			}
+			else
+				{
+				index=(index+1)%n;
+				}
+
+			}
+			cout<<"do you want to continue"<<endl;
+		cin>>ch;
+}	while(ch=='y');
+		
+		
+
+	}
+
+
+	void insert_with_chaining()
+	{
+		char ch;
+		int j;
+		int i=0;
+				cout<<"enter size of hash table"<<endl;
+				cin>>n;
+				do
+				{
+					
+				cout<<"enter name of person"<<endl;
+				cin>>cName;
+				cout<<endl;
+				cout<<"enter telephone number to be added"<<endl;
+				cin>>telephone;
+					index=(telephone%n);
+			
+						while(flag[index]==1&&i<n)
+						{
+							if(c[index].tel%n==index)
+							{
+
+						break;
+							}
+							i++;
+							index=(index+1)%n;
+						}
+
+						while(chain[index]!=-1)
+						{
+							index=chain[index];
+
+
+						}
+					
+						j=index;
+						while(flag[index]==1&&index<n)
+						{
+							index=(index+1)%n;
+							i++;
+					
+
+						}
+						c[index].Name=cName;
+						c[index].tel=telephone;
+						flag[index]=1;
+						if(index!=j)
+						{
+							chain[j]=index;
+						
+						}
+
+
+			
+				cout<<"do u wantt to continue"<<endl;
+				cin>>ch;
+				}while(ch=='y');
+
+	}
+
+
+
+void display()//without chaining
+	{
+			cout<<"INDEX"<<"\t"<<"NAME"<<"\t"<<"TELEPHONE\n";
+		for(int i=0;i<n;i++)
+		{
+			cout<<i<<"\t"<<c[i].Name<<"\t"<<c[i].tel<<endl;
+
+		}
+
+	}
+
+void display_with_chaining()//with chainig
+{
+
+	cout<<"INDEX"<<"\t"<<"NAME"<<"\t"<<"TELEPHONE"<<"\t"<<"CHAIN\n";
+for(int i=0;i<n;i++)
+{
+	cout<<i<<"\t"<<c[i].Name<<"\t"<<c[i].tel<<"\t"<<"\t"<<chain[i]<<endl;
+
+}
+
+}
+void search()//without chaining
+{
+	cout<<"enter telephone to be searched"<<endl;
+	cin>>telephone;
+	index=telephone%n;
+	for(int i=0;i<n;i++)
+	{
+		if(c[index].tel==telephone)
+		{
+
+
+			cout<<"client data found at location"<<endl;
+		cout<<"\t"<<c[index].Name<<"\t"<<c[index].tel;
+		cout<<endl;
+		break;
+		}
+
+
+		else
+		{
+			index=(index+1)%n;
+		}
+	}
+
+}
+
+
+
+};
+	int main()
+	{
+		hash h;
+		char ch;
+	 int 	choice;
+	 do
+	 {
+	 	cout<<"enter 1 for creating hash table without chain"<<endl;
+	 	cout<<"enter 2 for displaying hash table"<<endl;
+	    cout<< "enter 3 for searching data in  hash table"<<endl;
+	    cout<<"enter 4 for creating hash table with chaining "<<endl;
+		cout<<"enter 5 for displaying with chaining"<<endl;
+	    cout<< "enter your choice"<<endl;
+		 cin>>choice;
+		 	 switch(choice)
+		 	 {
+		 	 	case 1:
+		 	 		h.insert_without_chaining();
+		 	 		break;
+		 	 	case 2:
+		 	 	 	h.display();
+		 	 		break;
+		 		case 3:
+		 	 		h.search();
+		 	 		break;
+		 		case 4:
+		 			h.insert_with_chaining();
+		 			break;
+		 		case 5:
+		 			h.display_with_chaining();
+		 			break;
+
+		 	 	case 6:
+		 	 		cout<<"wrong choice"<<endl;
+
+
+			  }
+			  cout<<"do you want to continue"<<endl;
+			  cin>>ch;
+
+	  } while(ch=='y');
+
+		return 0;
+	}
+	
+	
+	/*
+	OUTPUT-
+	enter 1 for creating hash table without chain
+enter 2 for displaying hash table
+enter 3 for searching data in  hash table
+enter 4 for creating hash table with chaining
+enter 5 for displaying with chaining
+enter your choice
+1
+enter size of hash table
+10
+enter name of person
+we
+
+enter telephone number to be added
+25
+do you want to continue
+y
+enter name of person
+rt
+
+enter telephone number to be added
+35
+do you want to continue
+y
+enter name of person
+fr
+
+enter telephone number to be added
+45
+do you want to continue
+ n
+do you want to continue
+y
+enter 1 for creating hash table without chain
+enter 2 for displaying hash table
+enter 3 for searching data in  hash table
+enter 4 for creating hash table with chaining
+enter 5 for displaying with chaining
+enter your choice
+2
+INDEX   NAME    TELEPHONE
+0               0
+1               0
+2               0
+3               0
+4               0
+5       we      25
+6       rt      35
+7       fr      45
+8               0
+9               0
+do you want to continue
+y
+enter 1 for creating hash table without chain
+enter 2 for displaying hash table
+enter 3 for searching data in  hash table
+enter 4 for creating hash table with chaining
+enter 5 for displaying with chaining
+enter your choice
+4
+enter size of hash table
+10
+enter name of person
+qws
+
+enter telephone number to be added
+55
+do u wantt to continue
+n
+do you want to continue
+y
+enter 1 for creating hash table without chain
+enter 2 for displaying hash table
+enter 3 for searching data in  hash table
+enter 4 for creating hash table with chaining
+enter 5 for displaying with chaining
+enter your choice
+5
+INDEX   NAME    TELEPHONE       CHAIN
+0               0               -1
+1               0               -1
+2               0               -1
+3               0               -1
+4               0               -1
+5       we      25              8
+6       rt      35              -1
+7       fr      45              -1
+8       qws     55              -1
+9               0               -1
+do you want to continue
+n
+
+--------------------------------
+Process exited after 44.1 seconds with return value 0
+Press any key to continue . . .
+
+	*/
+	
